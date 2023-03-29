@@ -180,7 +180,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 6a37071bf5b2d044dafcb05ea8f4d2cc, type: 3}
+  m_Texture: {fileID: 2800000, guid: 649006811aeb61f4194e4231efd92b6c, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -668,7 +668,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 8767925ae820de941b265e68b4337927, type: 3}
+  m_audioClip: {fileID: 8300000, guid: f46b228a2c1edf54e8f18228de7eecac, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
