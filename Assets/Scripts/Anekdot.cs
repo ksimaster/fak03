@@ -949,14 +949,13 @@ public class Anekdot : MonoBehaviour
 "Самая длинная поэма в истории — «Шахнаме» («Книга царей») принадлежит перу персидского автора X века Фирдоуси. Поэма состоит из 120 000 двустиший, и ее написание заняло 35 лет.",
 "Чарли Чаплин однажды инкогнито принимал участие в конкурсе двойников «Бродяги» в театре Сан-Франциско и даже не смог пройти в финал этого конкурса.",
 "Только в 1992 году Ватикан официально признал, что Земля вращается вокруг Солнца.",
-"Львы — единственные из кошачьих, которые живут стаями (прайдами).",
-
-
+"Львы — единственные из кошачьих, которые живут стаями (прайдами)."
 
      };
     private int randAnekdot;
     private int i = 0;
     public TextMeshProUGUI textShutka;
+    private string logPause = "Вы отдохнули от фактов? Нажмите на экран или кнопку Пробел, чтобы продолжить";
 
     private void Start()
     {
@@ -974,8 +973,18 @@ public class Anekdot : MonoBehaviour
     public void GetAnekdotText()
     {
         i = PlayerPrefs.GetInt("NumberAnekdot");
-        if (i >= shutka.Length) i = 0; 
-        textShutka.text = shutka[i];
+        if (i >= shutka.Length) i = 0;
+        if(i % 5 == 0 && i != 0)
+        {
+            textShutka.text = logPause;
+#if UNITY_WEBGL && !UNITY_EDITOR
+    	WebGLPluginJS.InterstitialFunction();
+#endif
+        }
+        else
+        {
+            textShutka.text = shutka[i];
+        }
         Debug.Log("Шутка выдана под номером" + i);
         i++;
         PlayerPrefs.SetInt("NumberAnekdot", i);
