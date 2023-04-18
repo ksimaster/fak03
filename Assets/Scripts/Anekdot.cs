@@ -955,7 +955,7 @@ public class Anekdot : MonoBehaviour
     private int randAnekdot;
     private int i = 0;
     public TextMeshProUGUI textShutka;
-    private string logPause = "Вы отдохнули от фактов? Нажмите на экран или кнопку Пробел, чтобы продолжить";
+    private string logPause = "Время для отдыха от фактов! Вы уже отдохнули от фактов? Нажмите на экран, чтобы продолжить";
 
     private void Start()
     {
@@ -974,12 +974,11 @@ public class Anekdot : MonoBehaviour
     {
         i = PlayerPrefs.GetInt("NumberAnekdot");
         if (i >= shutka.Length) i = 0;
-        if(i % 5 == 0 && i != 0)
+        if(i % 7 == 0 && i != 0)
         {
             textShutka.text = logPause;
-#if UNITY_WEBGL && !UNITY_EDITOR
-    	WebGLPluginJS.InterstitialFunction();
-#endif
+            StartCoroutine("Pause");
+
         }
         else
         {
@@ -991,12 +990,21 @@ public class Anekdot : MonoBehaviour
         Debug.Log(PlayerPrefs.GetInt("NumberAnekdot"));
     }
 
+    IEnumerator Pause()
+    {
+        yield return new WaitForSeconds(1.5f);
+#if UNITY_WEBGL && !UNITY_EDITOR
+    	WebGLPluginJS.InterstitialFunction();
+#endif
+    }
     private void Update()
     {
+        /*
         if (Input.GetKeyDown(KeyCode.Space))
         {
             GetAnekdotText();
         }
+        */
     }
 
 
