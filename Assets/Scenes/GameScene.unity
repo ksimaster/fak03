@@ -719,6 +719,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2b61295d3595bc448043f8d60f620bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  button: {fileID: 1199028043}
   textShutka: {fileID: 1303135018}
 --- !u!4 &1113788460
 Transform:
