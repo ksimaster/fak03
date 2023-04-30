@@ -977,7 +977,7 @@ public class Anekdot : MonoBehaviour
     {
         i = PlayerPrefs.GetInt("NumberAnekdot");
         if (i >= shutka.Length) i = 0;
-        if(i % 10 == 0 && i != 0)
+        if(i % 11 == 0 && i != 0)
         {
             
             StartCoroutine("Pause");
