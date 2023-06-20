@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="TemplateData/style.css">
   <script src="https://yandex.ru/games/sdk/v2"></script>
 </head>
-<body>
+<body style="overflow-y: hidden;overflow-x: hidden;">
   <script>
   	var isAds = 'off';
     //add ksimaster
@@ -33,6 +33,7 @@
       console.log('show Ad Reward');
       sdk.adv.showRewardedVideo({callbacks:{}});
     }
+
   </script>
   <div id="unity-container" class="unity-desktop">
     <canvas id="unity-canvas" width={{{ WIDTH }}} height={{{ HEIGHT }}} style="width: 99vw; height: 99vh; background: #FFFFFF"></canvas>
@@ -173,7 +174,13 @@
         .then(lb => {
           lb.setLeaderboardScore('leader', best);
         });
-    } 
+    }
+	function Load(){
+      player.getStats().then(_date => {
+            const myJSON = JSON.stringify(_date);
+            myGameInstance.SendMessage('Progress', 'SetPlayerInfo', myJSON);
+        });
+    }
   </script>
 <script>
 

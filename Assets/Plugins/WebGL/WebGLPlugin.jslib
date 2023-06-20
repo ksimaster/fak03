@@ -49,6 +49,16 @@ mergeInto(LibraryManager.library, {
       stringToUTF8(isAd, bufferAd, bufferSizeAd);
       return bufferAd;
    },
+   // Function SaveExtern (add ksimaster)
+   SaveExtern: function (date) {
+     var dateString = UTF8ToString(date);
+     var myobj = JSON.parse(dateString);
+     player.setStats(myobj);
+   },
+   // Function LoadExtern (add ksimaster)
+    LoadExtern: function(){
+    	Load();
+ 	},
    // Function InterstitialFunction (add ksimaster)
    InterstitialFunction: function () {
       // Show a message as an alert

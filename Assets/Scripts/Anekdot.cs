@@ -976,6 +976,7 @@ public class Anekdot : MonoBehaviour
     public void GetAnekdotText()
     {
         i = PlayerPrefs.GetInt("NumberAnekdot");
+       /*
         if (i >= shutka.Length) i = 0;
         if(i % 11 == 0 && i != 0)
         {
@@ -988,6 +989,8 @@ public class Anekdot : MonoBehaviour
         {
             textShutka.text = shutka[i];
         }
+        */
+        textShutka.text = shutka[i];
         Debug.Log("Выдан факт под номером" + i);
         i++;
         PlayerPrefs.SetInt("NumberAnekdot", i);

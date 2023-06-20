@@ -1,18 +1,23 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ADScript : MonoBehaviour
 {
-    //public Slider sliderHome;
-    //public Slider sliderFuelCar;
-    //public float rewardBonusSliderHome;
-    //public float rewardBonusSliderFuel;
-    //public float lowBalanceFuel;
+    private const float CheckTimer = 150f;
+    private const float TimeOffset = 5f;
+
     public string nameScene;
-    public GameObject PanelDeath;
-    private int i;
+    private string lastIsAdsOpen = null;
+    private float timer;
+
+    public Text adWarningScene;
+    //public TextMeshProUGUI adWarningSetting;
+    //public TextMeshProUGUI adWarningCategory;
+
     public void ShareFriend(){
 #if UNITY_WEBGL && !UNITY_EDITOR
         WebGLPluginJS.ShareFunction();
@@ -20,9 +25,22 @@ public class ADScript : MonoBehaviour
     }
 
     public void ShowAdInterstitial(){
+        if (timer > CheckTimer)
+        {
 #if UNITY_WEBGL && !UNITY_EDITOR
-    	WebGLPluginJS.InterstitialFunction();
+    	            WebGLPluginJS.InterstitialFunction();
 #endif
+            timer = 0f;
+            StartCoroutine(Courutine(1));
+        }
+    }
+
+    IEnumerator Courutine(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        adWarningScene.text = "Кликни по экрану";
+        //adWarningSetting.gameObject.SetActive(false);
+        //adWarningCategory.gameObject.SetActive(false);
     }
 
     public void ShowAdReward(){
@@ -33,39 +51,40 @@ public class ADScript : MonoBehaviour
     	//if(sliderFuelCar.value<=lowBalanceFuel) sliderFuelCar.value += rewardBonusSliderFuel;
     }
 
-    //Change language
-
-    public void SetEnglish(string message)
-    {
-#if UNITY_WEBGL && !UNITY_EDITOR
-    	PlayerPrefs.SetString("lang", message);
-#endif
-
-    }
     private void Start()
     {
-        i = 0;
-        if (nameScene == "Menu") ShowAdInterstitial();
-        
     }
+
     private void Update()
     {
+        var deltaTime = Time.deltaTime;
+        timer += deltaTime;
+
         CheckAds();
-        //if (sliderHome.value <= sliderHome.minValue) ShowAdInterstitial();
-        /*
-        if (PanelDeath.activeSelf && i == 0) 
+        if (timer + TimeOffset > CheckTimer)
         {
-            i++;
-            ShowAdInterstitial();
-        } 
-        */
+            adWarningScene.gameObject.SetActive(true);
+           // adWarningSetting.gameObject.SetActive(true);
+            //adWarningCategory.gameObject.SetActive(true);
+            if (timer > CheckTimer)
+            {
+                ShowAdInterstitial();
+            }
+            else
+            {
+                var timeRest = Math.Floor(CheckTimer - timer) + 1;
+                adWarningScene.text = $"Реклама через: {timeRest}";
+               // adWarningSetting.text = $"Реклама через: {timeRest}";
+               // adWarningCategory.text = $"Реклама через: {timeRest}";
+            }
+        }    
     }
+
     private void OnApplicationFocus(bool focus)
     {
         if (focus)
         {
             AudioListener.pause = false;
-
         }
         else
         {
@@ -85,16 +104,32 @@ public class ADScript : MonoBehaviour
         }
     }
 
+    public void AdsClosed()
+    {
+        timer = 0f;
+    }
+
     public void CheckAds()
     {
 #if UNITY_WEBGL && !UNITY_EDITOR
-        if(WebGLPluginJS.GetAdsOpen() == "yes")
+        var adsOpen = WebGLPluginJS.GetAdsOpen();
+        if (lastIsAdsOpen == null) {
+            lastIsAdsOpen = adsOpen;
+        }
+
+        if (adsOpen == "yes")
         {
             AudioListener.pause = true;
+            lastIsAdsOpen = "yes";
         }
         else
         {
+            //Коничлась реклама
             AudioListener.pause = false;
+            if (lastIsAdsOpen == "yes") {
+                AdsClosed();
+                lastIsAdsOpen = "no";
+            }
         }
 #endif
     }
